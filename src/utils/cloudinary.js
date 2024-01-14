@@ -18,7 +18,8 @@ const uploadOnClodinary = async (localFilePath) => {
                 resource_type:"auto"
             })
         //File has been uploaded successfully
-        console.log("File has been uploaded successfully", response.url);
+        //console.log("File has been uploaded successfully", response.url);
+        fs.unlinkSync(localFilePath)
         return response;
     } catch (error) {
         fs.unlinkSync(localFilePath);
@@ -28,4 +29,4 @@ const uploadOnClodinary = async (localFilePath) => {
     }
 }
 
-export {uploadOnClodinary}
+export { uploadOnClodinary };
