@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -143,7 +144,7 @@ const logoutUser = asyncHandler(async (req, res) => {
         req.user._id,
         {
             $set: {
-                refreshToken:undefined
+                refreshToken:1
             }
         },
         {
@@ -164,6 +165,90 @@ const logoutUser = asyncHandler(async (req, res) => {
     
 })
 
+const refreshAccessToken = asyncHandler(async (req, res) => {
+    const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
+    console.log(incomingRefreshToken)
 
-export { loginUser, logoutUser, registerUser };
+    if (!incomingRefreshToken) {
+        throw new ApiError(401,"Invalid refresh token")
+    }
+
+    const decodedRefreshToken = jwt.verify(incomingRefreshToken, process.env.REFRESH_TOKEN_SECRET)
+    
+    const user = await User.findById(decodedRefreshToken?._id)
+    console.log(user._id)
+
+    if (!user) {
+        throw ApiError(401,"Invalid User")
+    }
+
+    if (incomingRefreshToken !== user?.refreshToken) {
+        throw new ApiError(402,"refresh token did not matched")
+    }
+
+    const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(user._id)
+    console.log(refreshToken)
+    
+    const options = {
+        httpOnly: true,
+        secure:true
+    }
+
+    return res.status(200)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    accessToken,refreshToken
+                },
+                "New refreshToken generated successfully"
+        )
+    )
+})
+
+const changeCurrentPassword = asyncHandler(async (req, res) => {
+    const { oldPassword, newPassword } = req.body
+
+    if (oldPassword === newPassword) {
+        return res
+            .status(400)
+            .json(
+                new ApiResponse(
+                    400,
+                    {},
+                    "New password can not be same as old password"
+            )
+        )
+    }
+    
+    const user = await User.findById(req.user?._id)
+
+    if (!user) {
+        throw new ApiError(400,"Invalid User")
+    }
+
+    const isPasswordCorrect = await user.isPasswordCorrect(oldPassword);
+
+    if (!isPasswordCorrect) {
+        throw new ApiError(400,"Invalid old password")
+    }
+
+    user.password = newPassword;
+    await user.save({ validateBeforeSave: false })
+    
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "Password changed Successfully"
+        )
+    )
+})
+
+
+export { changeCurrentPassword, loginUser, logoutUser, refreshAccessToken, registerUser };
 
