@@ -22,6 +22,8 @@ const generateAccessAndRefreshTokens = async (userId)=>{
 
 }
 
+
+//register user in the database
 const registerUser = asyncHandler(async (req, res) => {
     const { fullName, email, username, password } = req.body
     console.log(req.body)
@@ -84,6 +86,8 @@ const registerUser = asyncHandler(async (req, res) => {
 
 });
 
+
+//login user
 const loginUser = asyncHandler(async (req, res) => {
     const {email, username, password} = req.body
     console.log(email);
@@ -165,6 +169,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     
 })
 
+//renew refresh and access token
 const refreshAccessToken = asyncHandler(async (req, res) => {
     const incomingRefreshToken = req.cookies.refreshToken || req.body.refreshToken
     console.log(incomingRefreshToken)
@@ -208,6 +213,8 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
     )
 })
 
+
+//change current password
 const changeCurrentPassword = asyncHandler(async (req, res) => {
     const { oldPassword, newPassword } = req.body
 
@@ -249,6 +256,8 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     )
 })
 
+
+//get current user details
 const getCurrentUser = asyncHandler(async (req, res) => {
     return res
         .status(200)
@@ -261,6 +270,8 @@ const getCurrentUser = asyncHandler(async (req, res) => {
     )
 })
 
+
+//change fullName and email
 const updateAccountDetails = asyncHandler(async (req, res) => {
     const { fullName, email } = req.body
     
@@ -292,6 +303,8 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     )
 })
 
+
+//update user avatar
 const updateUserAvatar = asyncHandler(async (req, res) => {
     const avatarLocalPath = req.file?.path
 
@@ -328,6 +341,8 @@ const updateUserAvatar = asyncHandler(async (req, res) => {
     )
 })
 
+
+//update user coverImage
 const updateUserCoverImage = asyncHandler(async (req, res) => {
     const coverImageLocalPath = req.file?.path
 
@@ -351,7 +366,7 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
         {
             new:true
         }
-    )
+    ).select("-password -refreshToken")
 
     return res.status(200)
         .json(
@@ -364,8 +379,25 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 })
 
 
+//delete user from database
+const deleteUser = asyncHandler(async (req, res) => {
+    //get user object from verifyJWT
+
+    await User.deleteOne(req.user?._id)
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "User deleted from database"
+        )
+    )
+})
 
 
 
-export { changeCurrentPassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateAccountDetails, updateUserAvatar,updateUserCoverImage };
+
+
+export { changeCurrentPassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage,deleteUser };
 
