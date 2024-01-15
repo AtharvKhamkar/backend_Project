@@ -292,6 +292,80 @@ const updateAccountDetails = asyncHandler(async (req, res) => {
     )
 })
 
+const updateUserAvatar = asyncHandler(async (req, res) => {
+    const avatarLocalPath = req.file?.path
 
-export { changeCurrentPassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser,updateAccountDetails };
+    if (!avatarLocalPath) {
+        throw new ApiError(400, "Local image path does not found")
+    }
+
+    const avatar = await uploadOnClodinary(avatarLocalPath)
+
+    if (!avatar.url) {
+        throw new ApiError(401, "Error while uploading the image on cloudinary")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user?._id,
+        {
+            $set: {
+                avatar:avatar.url
+            }
+        },
+        {
+            new:true
+        }
+    ).select("-password -refreshToken")
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                user.avatar,
+                "User Avatar changed successfully"
+        )
+    )
+})
+
+const updateUserCoverImage = asyncHandler(async (req, res) => {
+    const coverImageLocalPath = req.file?.path
+
+    if (!coverImageLocalPath) {
+        throw new ApiError(400,"Local image path does not found")
+    }
+
+    const coverImage = await uploadOnClodinary(coverImageLocalPath)
+
+    if (!coverImage) {
+        throw new ApiError(401,"Error while uploading file on cloudinary")
+    }
+
+    const user = await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                coverImage:coverImage.url
+            }
+        },
+        {
+            new:true
+        }
+    )
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                user.coverImage,
+                "User cover image updated Successfully"
+        )
+    )
+})
+
+
+
+
+
+export { changeCurrentPassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateAccountDetails, updateUserAvatar,updateUserCoverImage };
 
