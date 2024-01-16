@@ -30,4 +30,6 @@ router.route("/update-avatar").post(upload.single("avatar"),verifyJWT,updateUser
 router.route("/update-coverImage").post(upload.single("coverImage"), verifyJWT, updateUserCoverImage)
 router.route("/delete-user").delete(upload.none(),deleteUser)
 
+
+
 export default router
