@@ -5,6 +5,17 @@ import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnClodinary } from "../utils/cloudinary.js";
 
+
+const getAllVideos = asyncHandler(async (req, res) => {
+    var videoModel = require("../models/video.model.js")
+    const options = {
+        page: 1,
+        limit: 10
+    };
+
+    var myAggregate = videoModel.aggregate()
+    })
+
 const publishAVideo = asyncHandler(async (req, res) => {
     //get title and description from user through req.body
     //get local video path and thumbnail from user through req.file
@@ -54,7 +65,35 @@ const getVideoById = asyncHandler(async (req, res) => {
     //convert id in params into the mongoDb id
 
     const { videoId } = req.params
-    const video = await Video.findById(new mongoose.Types.ObjectId(videoId))
+    const video = await Video.aggregate([
+        {
+            $match: {
+                _id:new mongoose.Types.ObjectId(videoId)
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: {
+                    $first:"$owner.username"
+                }
+            }
+        }
+    ])
 
     if (!video) {
         throw new ApiError(400,"Invalid video Id")
@@ -73,7 +112,106 @@ const getVideoById = asyncHandler(async (req, res) => {
     
 })
 
+const updateVideo = asyncHandler(async (req, res) => {
+    //get videoId through req.params
+    //get localfile path and upload on coudinary
+    //after getting url from cloudinary
+    //update the videoFile field
+    //return the newly updated object as response
+    const { videoId } = req.params
+    const {title,description} = req.body
+    
+    const videoLocalPath = req.files?.videoFile[0]?.path
+    console.log(videoLocalPath)
+    if (!videoLocalPath) {
+        throw new ApiError(400,"Video local path does not found")
+    }
+
+    const thumbnailLocalPath = req.files?.thumbnail[0]?.path
+    if (!thumbnailLocalPath) {
+        throw new ApiResponse(200,"Thumbnail local path does not found")
+    }
+
+    const videoFile = await uploadOnClodinary(videoLocalPath)
+    const thumbnail = await uploadOnClodinary(thumbnailLocalPath)
+    
+
+    await Video.findByIdAndUpdate(
+        new mongoose.Types.ObjectId(videoId),
+        {
+            $set: {
+                videoFile: videoFile.url,
+                thumbnail:thumbnail.url,
+                title,
+                description,
+                duration:Math.ceil(videoFile.duration),
+            },   
+        },
+        {
+            new : true
+        }
+    )
+    const video = await Video.aggregate([
+        {
+            $match: {
+                _id:new mongoose.Types.ObjectId(videoId)
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: {
+                    $first:"$owner.username"
+                }
+            }
+        }
+
+    ])
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                video,
+                "Video updated successfully"
+        )
+    )
+
+})
+
+const deleteVideo = asyncHandler(async (req, res) => {
+    //get videoId through req.params
+    //find the videoId in database and delete the video
+    const { videoId } = req.params
+    
+    const todeleteVideo = await Video.findByIdAndDelete(new mongoose.Types.ObjectId(videoId))
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                {
+                    deleted_Video_name:todeleteVideo.title
+                },
+                "Video File deleted successfully"
+        )
+    )
+})
 
 
-export { getVideoById, publishAVideo };
+export { deleteVideo, getVideoById, publishAVideo, updateVideo };
 
