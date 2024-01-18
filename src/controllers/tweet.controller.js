@@ -104,7 +104,7 @@ const updateTweet = asyncHandler(async (req, res) => {
     }
 
     const selectedTweet = await Tweet.findByIdAndUpdate(
-        new mongoose.Types.ObjectId(tweetID),
+        new mongoose.Types.ObjectId(tweetId),
         {
             $set : {
                 content:updateContent.trim()
