@@ -205,7 +205,7 @@ const deleteVideo = asyncHandler(async (req, res) => {
             new ApiResponse(
                 200,
                 {
-                    deleted_Video_name:todeleteVideo.title
+                    deleted_Video_name: todeleteVideo.title
                 },
                 "Video File deleted successfully"
         )
