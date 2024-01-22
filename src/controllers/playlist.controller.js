@@ -35,19 +35,67 @@ const createPlaylist = asyncHandler(async (req, res) => {
 
 const addVideoToPlaylist = asyncHandler(async (req, res) => {
     const { playlistId, videoId } = req.params
+
+    const currentPlaylist = await Playlist.findById(playlistId)
+    if (!currentPlaylist) {
+        throw new ApiError(400,"Playlist not found")
+    }
+
+    const checkVideo = await Playlist.aggregate([
     
-    await Playlist.findByIdAndUpdate(
-        new mongoose.Types.ObjectId(playlistId),
         {
-            $push: {
-                videos:videoId
-            }
+            $match: {
+                _id:new mongoose.Types.ObjectId(playlistId)
+            },
         },
         {
-            new:true
+            $match: {
+                videos: {
+                    $in:[new mongoose.Types.ObjectId(videoId),"$videos"]
+                }
+            }
         }
-    )
+        
+    ])
 
+
+    if (!checkVideo.length) {
+        await Playlist.findByIdAndUpdate(
+            new mongoose.Types.ObjectId(playlistId),
+            {
+                $push: {
+                    videos: videoId
+                }
+            },
+            {
+                new: true
+            }
+    )
+    } else {
+        await Playlist.findByIdAndUpdate(
+            new mongoose.Types.ObjectId(playlistId),
+            {
+                $pull: {
+                    "videos": {
+                        $in: [
+                            videoId
+                        ]
+                    }
+                }
+            },
+            {
+                multi: true
+            },
+            {
+                new:true
+            }
+        )
+    }
+
+   
+
+    
+    
     const updatedPlaylist = await Playlist.aggregate([
         {
             $match: {
@@ -125,6 +173,46 @@ const getUserPlaylist = asyncHandler(async (req, res) => {
                 owner:new mongoose.Types.ObjectId(req.user._id)
             }
         },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username:1
+                        }
+                    }
+                ]
+            }
+
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField: "videos",
+                foreignField: "_id",
+                as: "videos",
+                pipeline: [
+                    {
+                        $project: {
+                            title:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: {
+                    $first:"$owner.username"
+                }
+            }
+
+        },
+
         {
             $project: {
                 name: 1,
