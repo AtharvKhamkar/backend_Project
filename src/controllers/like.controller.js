@@ -146,7 +146,59 @@ const getLikedVideos = asyncHandler(async (req, res) => {
                 ]
             }
         },
-        
+        {
+            $project: {
+                video: 1,
+                likedBy:1
+            }
+
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "likedBy",
+                foreignField: "_id",
+                as: "likedBy",
+                pipeline: [
+                    {
+                        $project: {
+                            username:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                likedBy: {
+                    $first:"$likedBy.username"
+                }
+            }
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField: "video",
+                foreignField: "_id",
+                as: "video",
+                pipeline: [
+                    {
+                        $project: {
+                            title: 1,
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                video: {
+                    $first:"$video.title"
+                },
+                
+            }
+        }
+
     ])
 
     return res.status(200)
@@ -159,5 +211,160 @@ const getLikedVideos = asyncHandler(async (req, res) => {
     )
 })
 
-export { getLikedVideos, likeComment, likeTweet, likeVideo };
+const getLikedComments = asyncHandler(async (req, res) => {
+    const allLikedComments = await Like.aggregate([
+        {
+            $match: {
+                $and:[
+                    {
+                        likedBy:new mongoose.Types.ObjectId(req.user?._id)
+                    },
+                    {
+                        comment: {
+                            $exists:true
+                        }
+                    }
+                    
+                ]
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "likedBy",
+                foreignField: "_id",
+                as: "likedBy",
+                pipeline: [
+                    {
+                        $project: {
+                            username:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                likedBy: {
+                    $first:"$likedBy.username"
+                }
+            }
+        },
+        {
+            $lookup: {
+                from: "comments",
+                localField: "comment",
+                foreignField: "_id",
+                as: "comment",
+                pipeline: [
+                    {
+                        $project: {
+                            content:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                comment: {
+                    $first:"$comment.content"
+                }
+            }
+        }
+    ])
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                allLikedComments,
+                "all user liked comments fetched successfully"
+        )
+    )
+})
+
+const getLikedTweets = asyncHandler(async (req, res) => {
+    const allLikedTweets = await Like.aggregate([
+        {
+            $match: {
+                $and: [
+                    {
+                        likedBy:new mongoose.Types.ObjectId(req.user?._id)
+                    },
+                    {
+                        tweet: {
+                            $exists:true
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $project: {
+                likedBy: 1,
+                tweet:1
+            }
+
+        },
+
+        {
+            $lookup: {
+                from: "tweets",
+                localField: "tweet",
+                foreignField: "_id",
+                as: "tweet",
+                pipeline: [
+                    {
+                        $project: {
+                            content:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                tweet: {
+                    $first:"$tweet.content"
+                }
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "likedBy",
+                foreignField: "_id",
+                as: "likedBy",
+                pipeline: [
+                    {
+                        $project: {
+                            username:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                likedBy: {
+                    $first:"$likedBy.username"
+                }
+            }
+        }
+    ])
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                allLikedTweets,
+                "All liked tweets fetched successfully"
+        )
+    )
+})
+
+
+
+export { getLikedComments, getLikedTweets, getLikedVideos, likeComment, likeTweet, likeVideo };
 
