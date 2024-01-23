@@ -175,9 +175,23 @@ const deleteComment = asyncHandler(async (req, res) => {
 
 const getAllVideoComments = asyncHandler(async (req, res) => {
     const { videoId } = req.params
-    const { page = 1, limit = 2 } = req.query
+    const { page = 1, limit = 2,query } = req.query
     
     const pipeline = [];
+    if (query) {
+        pipeline.push({
+            $search: {
+                index: "search-comment",
+                text: {
+                    query: query,
+                    path: ["content"]
+                }
+                
+            }
+        
+        });
+    }
+
 
     if (!isValidObjectId(videoId)) {
         throw new ApiError(400,"VideoId is not valid")
@@ -189,6 +203,60 @@ const getAllVideoComments = asyncHandler(async (req, res) => {
         }
     })
 
+    pipeline.push(
+        {
+        $project: {
+            content: 1,
+            owner: 1,
+            video:1
+        },
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: {
+                    $first:"$owner.username"
+                }
+            }
+        },
+        {
+            $lookup: {
+                from: "videos",
+                localField: "video",
+                foreignField: "_id",
+                as: "video",
+                pipeline: [
+                    {
+                        $project: {
+                            title:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                video: {
+                    $first:"$video.title"
+                }
+            }
+        }
+        
+    )
     const commentAggregate = Comment.aggregate(pipeline)
 
     const options= {
@@ -210,5 +278,5 @@ const getAllVideoComments = asyncHandler(async (req, res) => {
 
 
 
-export { addComment, deleteComment, getVideoComments, updateComment ,getAllVideoComments};
+export { addComment, deleteComment, getAllVideoComments, getVideoComments, updateComment };
 

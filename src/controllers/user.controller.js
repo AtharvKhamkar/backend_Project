@@ -395,9 +395,5 @@ const deleteUser = asyncHandler(async (req, res) => {
     )
 })
 
-
-
-
-
 export { changeCurrentPassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage,deleteUser };
 

@@ -7,7 +7,7 @@ import { uploadOnClodinary } from "../utils/cloudinary.js";
 
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    const { page = 1, limit = 2 } = req.query;
+    const { page = 1, limit = 2,query } = req.query;
     const pipeline = [];
 
     if (!isValidObjectId(req.user?._id)) {
@@ -19,6 +19,58 @@ const getAllVideos = asyncHandler(async (req, res) => {
             owner:new mongoose.Types.ObjectId(req.user?._id)
         }
     })
+
+    if (query) {
+        pipeline.push(
+        {
+            $search: {
+                index: "search-video",
+                text: {
+                    query: query,
+                    path: ["title", "description"]
+                }
+            }
+        });
+    }
+
+    pipeline.push(
+        {
+            $project: {
+                videoFile: 1,
+                thumbnail: 1,
+                title: 1,
+                description: 1,
+                views: 1,
+                isPublished: 1,
+                owner:1
+            }
+        },
+        {
+            $lookup: {
+                from: "users",
+                localField: "owner",
+                foreignField: "_id",
+                as: "owner",
+                pipeline: [
+                    {
+                        $project: {
+                            username:1
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            $addFields: {
+                owner: {
+                    $first:"$owner.username"
+                }
+            }
+        }
+        
+    )
+
+    
 
     const videoAggregate = Video.aggregate(pipeline);
 
