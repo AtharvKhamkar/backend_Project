@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { deleteVideo, getVideoById, publishAVideo, updateVideo } from "../controllers/video.controller.js";
+import { deleteVideo, getAllVideos, getVideoById, publishAVideo, updateVideo } from "../controllers/video.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
 
@@ -30,6 +30,7 @@ router.route("/update-video/:videoId").patch(verifyJWT, upload.fields([
         maxCount:1
     }
 ]), updateVideo)
-router.route("/delete-video/:videoId").delete(verifyJWT,deleteVideo)
+router.route("/delete-video/:videoId").delete(verifyJWT, deleteVideo)
+router.route("/all-videos").get(verifyJWT,getAllVideos)
 
 export default router

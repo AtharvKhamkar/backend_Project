@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { Video } from "../models/video.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -7,14 +7,37 @@ import { uploadOnClodinary } from "../utils/cloudinary.js";
 
 
 const getAllVideos = asyncHandler(async (req, res) => {
-    var videoModel = require("../models/video.model.js")
+    const { page = 1, limit = 2 } = req.query;
+    const pipeline = [];
+
+    if (!isValidObjectId(req.user?._id)) {
+        throw new ApiError(400,"Invalid user")
+    }
+
+    pipeline.push({
+        $match: {
+            owner:new mongoose.Types.ObjectId(req.user?._id)
+        }
+    })
+
+    const videoAggregate = Video.aggregate(pipeline);
+
     const options = {
-        page: 1,
-        limit: 10
+        page: parseInt(page, 10),
+        limit: parseInt(limit, 10)
     };
 
-    var myAggregate = videoModel.aggregate()
-    })
+    const video = await Video.aggregatePaginate(videoAggregate, options)
+    
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                video,
+                "Videos fetched successfully"
+        )
+    )
+})
 
 const publishAVideo = asyncHandler(async (req, res) => {
     //get title and description from user through req.body
@@ -213,5 +236,5 @@ const deleteVideo = asyncHandler(async (req, res) => {
 })
 
 
-export { deleteVideo, getVideoById, publishAVideo, updateVideo };
+export { deleteVideo, getAllVideos, getVideoById, publishAVideo, updateVideo };
 

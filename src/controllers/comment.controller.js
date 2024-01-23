@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { isValidObjectId } from "mongoose";
 import { Comment } from "../models/comment.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -173,7 +173,42 @@ const deleteComment = asyncHandler(async (req, res) => {
     )
 })
 
+const getAllVideoComments = asyncHandler(async (req, res) => {
+    const { videoId } = req.params
+    const { page = 1, limit = 2 } = req.query
+    
+    const pipeline = [];
+
+    if (!isValidObjectId(videoId)) {
+        throw new ApiError(400,"VideoId is not valid")
+    }
+
+    pipeline.push({
+        $match: {
+            video:new mongoose.Types.ObjectId(videoId)
+        }
+    })
+
+    const commentAggregate = Comment.aggregate(pipeline)
+
+    const options= {
+        page: parseInt(page, 10),
+        limit:parseInt(limit,10)
+    }
+
+    const comment = await Comment.aggregatePaginate(commentAggregate, options)
+    
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                comment,
+                "Comment fetched successfully"
+        )
+    )
+})
 
 
-export { addComment, getVideoComments, updateComment,deleteComment };
+
+export { addComment, deleteComment, getVideoComments, updateComment ,getAllVideoComments};
 
