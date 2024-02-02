@@ -1,4 +1,5 @@
 import mongoose, { isValidObjectId } from "mongoose";
+import { User } from "../models/user.model.js";
 import { Video } from "../models/video.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -287,6 +288,52 @@ const deleteVideo = asyncHandler(async (req, res) => {
     )
 })
 
+const videoViews = asyncHandler(async (req, res) => {
+    const { videoId } = req.params
+    
+    const checkVideo = await Video.findById(videoId)
+    if (!checkVideo) {
+        throw new ApiError(400, "Invalid video")
+    }
 
-export { deleteVideo, getAllVideos, getVideoById, publishAVideo, updateVideo };
+    const updatedVideo = await Video.findByIdAndUpdate(
+        new mongoose.Types.ObjectId(videoId),
+        {
+            $inc: {
+                views:1
+            }
+        },
+        {
+            new:true
+        }
+    )
+
+    const updateWatchHistory = await User.findByIdAndUpdate(
+        new mongoose.Types.ObjectId(req.user._id),
+        {
+            $push: {
+                watchHistory:videoId
+            }
+        },
+        {
+            new:true
+        }
+    
+    
+    )
+
+    res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                updatedVideo,
+                "View Count updated"
+        )
+    )
+    
+
+})
+
+
+export { deleteVideo, getAllVideos, getVideoById, publishAVideo, updateVideo, videoViews };
 

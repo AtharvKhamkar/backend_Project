@@ -1,9 +1,11 @@
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { uploadOnClodinary } from "../utils/cloudinary.js";
+import { sendEmail } from "./email.controller.js";
 
 
 const generateAccessAndRefreshTokens = async (userId)=>{
@@ -69,7 +71,8 @@ const registerUser = asyncHandler(async (req, res) => {
         coverImage: coverImage?.url || "",
         email,
         password,
-        username: username.toLowerCase()
+        username: username.toLowerCase(),
+        watchHistory:[]
     })
 
     const createdUser = await User.findById(user._id).select(
@@ -256,6 +259,77 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
     )
 })
 
+const forgotPassword = asyncHandler(async (req, res) => {
+    //get gmail from the user
+    //check the user gmail is in database and get user instance
+    //add resetPasswordToken in that instance
+    //pass token through link
+    //create data object and pass to the emailSender
+    //return token
+    const { email } = req.body
+    const fetchedUser = await User.findOne({ email })
+    if (!fetchedUser) {
+        throw new ApiError(400,"Invalid user")
+    }
+
+    
+
+    const token = await fetchedUser.generatePasswordResetToken();
+    await fetchedUser.save();
+    const info = `Hey please follow the given URL to reset your password.This link is only valid for next 10 min from now.<a href='http://localhost:8000/api/v1/users/reset-password/${token}'>Click here</>`;
+    const data = {
+        to: email,
+        subject: "Password reset",
+        text: "Hey user",
+        html:info
+    }
+    sendEmail(data)
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                token,
+                "Password reset email send successfully"
+        )
+    )
+})
+
+const resetPassword = asyncHandler(async (req, res) => {
+    //get newPassword throgh req.body and token through req.params
+    //hash token
+    //retrive user from database using hashed token and resetTokenExpiry
+    //if user found change password and make resetToken and expiry undefined
+
+    const { newPassword } = req.body
+    const { token } = req.params
+    
+    const hashedToken = crypto.createHash("sha256").update(token).digest("hex")
+    const fetchedUser = await User.findOne({
+        passwordResetToken: hashedToken,
+        passwordResetTokenExpiry:{$gt:Date.now()}
+    })
+
+    console.log(fetchedUser)
+
+    if (!fetchedUser) {
+        throw new ApiError(400,"Token expired,please try again later")
+    }
+    fetchedUser.password = newPassword
+    fetchedUser.passwordResetToken = undefined
+    fetchedUser.passwordResetTokenExpiry = undefined
+    await fetchedUser.save()
+
+    return res.status(200)
+        .json(
+            new ApiResponse(
+                200,
+                {},
+                "Password reset successfully"
+        )
+    )
+})
+
 
 //get current user details
 const getCurrentUser = asyncHandler(async (req, res) => {
@@ -395,5 +469,5 @@ const deleteUser = asyncHandler(async (req, res) => {
     )
 })
 
-export { changeCurrentPassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, updateAccountDetails, updateUserAvatar, updateUserCoverImage,deleteUser };
+export { changeCurrentPassword, deleteUser, forgotPassword, getCurrentUser, loginUser, logoutUser, refreshAccessToken, registerUser, resetPassword, updateAccountDetails, updateUserAvatar, updateUserCoverImage };
 

@@ -2,11 +2,13 @@ import { Router } from "express";
 import {
     changeCurrentPassword,
     deleteUser,
+    forgotPassword,
     getCurrentUser,
     loginUser,
     logoutUser,
     refreshAccessToken,
     registerUser,
+    resetPassword,
     updateAccountDetails,
     updateUserAvatar,
     updateUserCoverImage
@@ -35,6 +37,8 @@ router.route("/login").post(upload.none(), loginUser)
 router.route("/logout").post(upload.none(), verifyJWT, logoutUser)
 router.route("/refresh-token").post(upload.none(), refreshAccessToken)
 router.route("/change-password").post(upload.none(), verifyJWT, changeCurrentPassword)
+router.route("/forgot-password").post(upload.none(), forgotPassword)
+router.route("/reset-password/:token").patch(upload.none(),resetPassword)
 router.route("/current-user").get(upload.none(), verifyJWT, getCurrentUser)
 router.route("/update-account").patch(upload.none(), verifyJWT, updateAccountDetails)
 router.route("/update-avatar").patch(upload.single("avatar"),verifyJWT,updateUserAvatar)
