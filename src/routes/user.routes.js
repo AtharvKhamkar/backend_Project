@@ -43,7 +43,7 @@ router.route("/current-user").get(upload.none(), verifyJWT, getCurrentUser)
 router.route("/update-account").patch(upload.none(), verifyJWT, updateAccountDetails)
 router.route("/update-avatar").patch(upload.single("avatar"),verifyJWT,updateUserAvatar)
 router.route("/update-coverImage").patch(upload.single("coverImage"), verifyJWT, updateUserCoverImage)
-router.route("/delete-user").delete(upload.none(),deleteUser)
+router.route("/delete-user").delete(verifyJWT,deleteUser)
 
 
 

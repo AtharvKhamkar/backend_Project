@@ -156,7 +156,7 @@ const deleteComment = asyncHandler(async (req, res) => {
 
     const { commentId } = req.params
     
-    const toDeleteComment = await Comment.findByIdAndUpdate(
+    const toDeleteComment = await Comment.findByIdAndDelete(
         new mongoose.Types.ObjectId(commentId)
     )
 

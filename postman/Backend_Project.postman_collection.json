@@ -1,0 +1,1900 @@
+{
+	"info": {
+		"_postman_id": "87d09025-1553-405e-bd8f-f66d65685805",
+		"name": "Backend_Project",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Registration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fullName",
+									"value": "Sanket Sawant",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "sanketsawant",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "sanketsawant2002@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "sanket123",
+									"type": "text"
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/speak.png"
+								},
+								{
+									"key": "coverImage",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/myPhoto.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/register",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWExMGUzNzQ5MjJhNjczNDk3YTkxNDMiLCJlbWFpbCI6ImtoYW1rYXJ0aGFydjIwMDIyZ21haWwuY29tIiwidXNlcm5hbWUiOiJhdGhhcnZraGFta2FyIiwiZnVsbE5hbWUiOiJBdGhhcnYgS2hhbWthciIsImlhdCI6MTcwNTIxODcxMiwiZXhwIjoxNzA1MzA1MTEyfQ.vxjiPLkQ6lTS9Pijv0FX1TlJD5PIGs1EcP25Ew9J7sQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"sanketsawant2002@gmail.com\",\n    \"username\":\"sanketsawant\",\n    \"password\": \"sanket123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/login",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTA0NjQsImV4cCI6MTcwODMzNjg2NH0.jKzxgxScZRTxgDaQUFTRXiEafhmE5cWYPOEYWoauX8g",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/logout",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Renew refreshToken",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJpYXQiOjE3MDgyNTM5MDcsImV4cCI6MTcwOTExNzkwN30.KeVTad_yVUF3nt9sWCGbQZeDygqOV-OfJ9KQlIp1LyM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refreshToken\" : \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJpYXQiOjE3MDgyNTM5MDcsImV4cCI6MTcwOTExNzkwN30.KeVTad_yVUF3nt9sWCGbQZeDygqOV-OfJ9KQlIp1LyM\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/refreshToken",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"refreshToken"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Change Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTM5MDcsImV4cCI6MTcwODM0MDMwN30.7QX05Kk4cLExjcH6hwVfGrmBUjbO6ZYH-g1ksetdCok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "oldPassword",
+									"value": "sanket1234",
+									"type": "text"
+								},
+								{
+									"key": "newPassword",
+									"value": "sanket123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/change-password",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"change-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Forgot Password",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWExMGUzNzQ5MjJhNjczNDk3YTkxNDMiLCJlbWFpbCI6ImtoYW1rYXJ0aGFydjIwMDIyZ21haWwuY29tIiwidXNlcm5hbWUiOiJhdGhhcnZraGFta2FyIiwiZnVsbE5hbWUiOiJBdGhhcnYgS2hhbWthciIsImlhdCI6MTcwNTI1ODkyNSwiZXhwIjoxNzA1MzQ1MzI1fQ.wRKDGeFGr75inwyTVEOLv__yU0SyfhGeaSu5Kyp_Efw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "email",
+									"value": "khamkaratharv2002@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/users/forgot-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"forgot-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Reset Password",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "newPassword",
+									"value": "atharv12345",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/users/reset-password/9378870e30c9dead7428096e5e5f375f648fef15d4105f91931a3682ed750b9d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"reset-password",
+								"9378870e30c9dead7428096e5e5f375f648fef15d4105f91931a3682ed750b9d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Current User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTM5MDcsImV4cCI6MTcwODM0MDMwN30.7QX05Kk4cLExjcH6hwVfGrmBUjbO6ZYH-g1ksetdCok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/current-user",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"current-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Account Details",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTM5MDcsImV4cCI6MTcwODM0MDMwN30.7QX05Kk4cLExjcH6hwVfGrmBUjbO6ZYH-g1ksetdCok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "fullName",
+									"value": "Atharv Santosh Sawant",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "sanketsawant2002@gmail.com",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/update-account",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update-account"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Coverimage",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTM5MDcsImV4cCI6MTcwODM0MDMwN30.7QX05Kk4cLExjcH6hwVfGrmBUjbO6ZYH-g1ksetdCok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "coverImage",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/myProfilePic.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/update-coverImage",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update-coverImage"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Avatar",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTM5MDcsImV4cCI6MTcwODM0MDMwN30.7QX05Kk4cLExjcH6hwVfGrmBUjbO6ZYH-g1ksetdCok",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/class_diagram.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/users/update-avatar",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"update-avatar"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IkF0aGFydiBTYW50b3NoIFNhd2FudCIsImlhdCI6MTcwODI1NTEzNSwiZXhwIjoxNzA4MzQxNTM1fQ.87oKm9rsbmqLTNvy9CneefOf3oPKEY-hvF6_8Tlj2B8",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/users/delete-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"delete-user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Subscribe",
+			"item": [
+				{
+					"name": "Subscribe channel",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "channel",
+									"value": "atharvkhamkar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/subscription/subscribe",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subscription",
+								"subscribe"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User channel details",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "atharvkhamkar",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/subscription/user-Chanel-details",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"subscription",
+								"user-Chanel-details"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tweet",
+			"item": [
+				{
+					"name": "Create Tweet",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "Hey guys, I am sankaet,Hey twitter connect me with people who are intrested in Data science, Data analytics,Excel",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/tweet/create-tweet",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tweet",
+								"create-tweet"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all tweets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/tweet/all-tweets",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tweet",
+								"all-tweets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete tweet",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/tweet/delete-tweet/:tweetId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tweet",
+								"delete-tweet",
+								":tweetId"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "65d1ebb67769134a46e2ef06"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update tweet",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/tweet/update-tweet/:tweetId/:updateContent",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"tweet",
+								"update-tweet",
+								":tweetId",
+								":updateContent"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "65d1ebb67769134a46e2ef06"
+								},
+								{
+									"key": "updateContent",
+									"value": "Hey , I am sankat,Hey twitter connect me with people who are intrested in Data science, Data analytics,Excel"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Video",
+			"item": [
+				{
+					"name": "Upload Video",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Roadmap to Data Analyst",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Proper readmap to become full time data analyst",
+									"type": "text"
+								},
+								{
+									"key": "videoFile",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/VID-20230817-WA0028.mp4"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/myProfilePic.jpeg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/video/publish-video",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"video",
+								"publish-video"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Video by Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/video/getVideo/:videoId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"video",
+								"getVideo",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d1eec57769134a46e2ef15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All User Videos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/video/all-videos?page=1&limit=3",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"video",
+								"all-videos"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Video",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "videoFile",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/VID-20220608-WA0013.mp4"
+								},
+								{
+									"key": "title",
+									"value": "Roadmap to Data Analyst",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "full readmap to become full time data analyst",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/624773.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/video/update-video/:videoId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"video",
+								"update-video",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d1eec57769134a46e2ef15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Views",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWE2NWU2NDdlMTUxMGNkMDc4Y2I3M2UiLCJlbWFpbCI6ImtoYW1rYXJhdGhhcnYyMDAyQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoiYXRoYXJ2a2hhbWthciIsImZ1bGxOYW1lIjoiQXRoYXJ2IEd1cnVkYXMgS2hhbWthciIsImlhdCI6MTcwNTU4NzEzMCwiZXhwIjoxNzA1NjczNTMwfQ.EbqKVuEbkkAYFNJSPxjQFpkPFyu2pdwRcSMwFxGyYnM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "videoFile",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/VID-20230817-WA0028.mp4"
+								},
+								{
+									"key": "title",
+									"value": "This is new title",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This is new description",
+									"type": "text"
+								},
+								{
+									"key": "thumbnail",
+									"type": "file",
+									"src": "/home/mahesh/Downloads/624773.jpg"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8000/api/v1/video/update-video/:videoId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"v1",
+								"video",
+								"update-video",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65a8f37465c558d384adf998"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Video",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/video/delete-video/:videoId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"video",
+								"delete-video",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d1eec57769134a46e2ef15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Add comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "Hey this is very detailed roadmap to follow.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/comment/add-comment/:videoId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comment",
+								"add-comment",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d1f2177769134a46e2ef32"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Video Comments",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/comment/video-comments/:videoId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comment",
+								"video-comments",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65a8f37465c558d384adf998"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Video Comments(alternate)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/comment/allVideo-comments/:videoId?page=1&limit=2&query=video",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comment",
+								"allVideo-comments",
+								":videoId"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "2"
+								},
+								{
+									"key": "query",
+									"value": "video"
+								}
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65a8f37465c558d384adf998"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "content",
+									"value": "this is very detailed roadmap to follow.",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/comment/update-comment/:commentId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comment",
+								"update-comment",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "65d20db554bec641cf7942ac"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/comment/delete-comment/:commentId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"comment",
+								"delete-comment",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "65d20db554bec641cf7942ac"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Playlist",
+			"item": [
+				{
+					"name": "Add Video",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/playlist/add-video/:videoId/:playlistId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"playlist",
+								"add-video",
+								":videoId",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d1f2177769134a46e2ef32"
+								},
+								{
+									"key": "playlistId",
+									"value": "65ad6b81109480744576e53f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove video",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/playlist/remove-video/:videoId/:playlistId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"playlist",
+								"remove-video",
+								":videoId",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65d1f2177769134a46e2ef32"
+								},
+								{
+									"key": "playlistId",
+									"value": "65ad6b81109480744576e53f"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Playlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Data Analyst",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/playlist/update-playlist/:playlistId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"playlist",
+								"update-playlist",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "playlistId",
+									"value": "65d245af1b791d73d02dfde8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Playlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Data analyst Playlist",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "This playlist contains list of data analyst resources",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/playlist/create-playlist",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"playlist",
+								"create-playlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User Playlist",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/playlist/get-user-playlist",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"playlist",
+								"get-user-playlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Playlist",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/playlist/delete-playlist/:playlistId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"playlist",
+								"delete-playlist",
+								":playlistId"
+							],
+							"variable": [
+								{
+									"key": "playlistId",
+									"value": "65d245af1b791d73d02dfde8"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Likes",
+			"item": [
+				{
+					"name": "Like Comment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/likes/like-comment/:commentId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"likes",
+								"like-comment",
+								":commentId"
+							],
+							"variable": [
+								{
+									"key": "commentId",
+									"value": "65a93abc52d265b567128623"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like Video",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/likes/like-video/:videoId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"likes",
+								"like-video",
+								":videoId"
+							],
+							"variable": [
+								{
+									"key": "videoId",
+									"value": "65a8f37465c558d384adf998"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All liked Videos",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/likes/liked-videos",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"likes",
+								"liked-videos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All liked Tweets",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/likes/liked-tweets",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"likes",
+								"liked-tweets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All liked Comments",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/likes/liked-comments",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"likes",
+								"liked-comments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Like Tweet",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZThhZTc3NjkxMzRhNDZlMmVlZjMiLCJlbWFpbCI6InNhbmtldHNhd2FudDIwMDJAZ21haWwuY29tIiwidXNlcm5hbWUiOiJzYW5rZXRzYXdhbnQiLCJmdWxsTmFtZSI6IlNhbmtldCBTYXdhbnQiLCJpYXQiOjE3MDgyNTU0MzMsImV4cCI6MTcwODM0MTgzM30.NVnHnfhwvkzExXTzgL5S5KRmBw_yhRWAM4GCGPYRfTo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "https://youtube-twitter-clone-backend.onrender.com/api/v1/likes/like-tweet/:tweetId",
+							"protocol": "https",
+							"host": [
+								"youtube-twitter-clone-backend",
+								"onrender",
+								"com"
+							],
+							"path": [
+								"api",
+								"v1",
+								"likes",
+								"like-tweet",
+								":tweetId"
+							],
+							"variable": [
+								{
+									"key": "tweetId",
+									"value": "65a8bca76b63ebe524fd680f"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

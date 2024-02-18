@@ -457,13 +457,16 @@ const updateUserCoverImage = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
     //get user object from verifyJWT
 
-    await User.deleteOne(req.user?._id)
+    const user = await User.findByIdAndDelete(req.user?._id)
+    console.log(user)
 
     return res.status(200)
         .json(
             new ApiResponse(
                 200,
-                {},
+                {
+                    "deleted_user":user._id
+                },
                 "User deleted from database"
         )
     )
