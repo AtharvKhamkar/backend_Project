@@ -4,7 +4,4 @@ dotenv.config({
     path: './env'
 })
 
-export const redisClient = new Redis({
-    host: process.env.REDIS_SERVICE_NAME,
-    port:process.env.REDIS_PORT || 6381
-})
+export const redisClient = new Redis(process.env.REDIS_URL)
