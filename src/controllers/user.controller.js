@@ -1,5 +1,6 @@
 import crypto from "crypto";
 import jwt from "jsonwebtoken";
+import { redisClient } from "../db/redis.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -333,12 +334,29 @@ const resetPassword = asyncHandler(async (req, res) => {
 
 //get current user details
 const getCurrentUser = asyncHandler(async (req, res) => {
+    const Id = req.user?._id
+    const cachedValue = await redisClient.get(`User:${Id}`)
+    if (cachedValue) {
+        console.log("cached value")
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "Successfully found logged in user"
+            )
+        )
+    }
+
+    const user = await User.findById(Id)
+    await redisClient.set(`User:${Id}`, JSON.stringify(user), 'EX', 60)
+    console.log("server value")
     return res
         .status(200)
         .json(
             new ApiResponse(
                 200,
-                req?.user,
+                user,
                 "Successfully found logged in user"
         )
     )
