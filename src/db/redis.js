@@ -1,3 +1,11 @@
 import { Redis } from "ioredis";
 
-export const redisClient = new Redis()
+export const redisClient = new Redis({
+    host:process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT,
+    username:process.env.REDIS_USER,
+    password:process.env.REDIS_PASSWORD,
+})
+
+redisClient.connect(()=>console.log("redis connected"))
+
