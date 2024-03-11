@@ -1,4 +1,5 @@
 import mongoose, { isValidObjectId } from "mongoose";
+import { redisClient } from "../db/redis.js";
 import { Like } from "../models/like.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -133,6 +134,18 @@ const likeTweet = asyncHandler(async (req, res) => {
 })
 
 const getLikedVideos = asyncHandler(async (req, res) => {
+    const Id = req.user?._id;
+    const cachedValue = await redisClient.get(`like:${Id}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "Successfully fetched liked videos"
+            )
+        )
+    }
     const allLikedVideo = await Like.aggregate([
         {
             $match: {
@@ -201,6 +214,8 @@ const getLikedVideos = asyncHandler(async (req, res) => {
 
     ])
 
+    await redisClient.set(`like:${Id}`,JSON.stringify(allLikedVideo),'EX',60)
+
     return res.status(200)
         .json(
             new ApiResponse(
@@ -212,6 +227,18 @@ const getLikedVideos = asyncHandler(async (req, res) => {
 })
 
 const getLikedComments = asyncHandler(async (req, res) => {
+    const Id = req.user?._id
+    const cachedValue = await redisClient.get(`likedComments:${Id}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "Successfully fetched cached value"
+            )
+        )
+    }
     const allLikedComments = await Like.aggregate([
         {
             $match: {
@@ -274,6 +301,8 @@ const getLikedComments = asyncHandler(async (req, res) => {
         }
     ])
 
+    await redisClient.set(`likedComments:${Id}`,JSON.stringify(allLikedComments),'EX',60)
+
     return res.status(200)
         .json(
             new ApiResponse(
@@ -285,12 +314,24 @@ const getLikedComments = asyncHandler(async (req, res) => {
 })
 
 const getLikedTweets = asyncHandler(async (req, res) => {
+    const Id = req.user?._id
+    const cachedValue = await redisClient.get(`likedTweet:${Id}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "Successfully fetched liked tweets"
+            )
+        )
+    }
     const allLikedTweets = await Like.aggregate([
         {
             $match: {
                 $and: [
                     {
-                        likedBy:new mongoose.Types.ObjectId(req.user?._id)
+                        likedBy:new mongoose.Types.ObjectId(Id)
                     },
                     {
                         tweet: {
@@ -353,6 +394,8 @@ const getLikedTweets = asyncHandler(async (req, res) => {
             }
         }
     ])
+
+    await redisClient.set(`likedTweet:${Id}`,JSON.stringify(allLikedTweets),'EX',60)
 
     return res.status(200)
         .json(

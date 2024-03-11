@@ -1,4 +1,5 @@
 import mongoose, { isValidObjectId } from "mongoose";
+import { redisClient } from "../db/redis.js";
 import { Comment } from "../models/comment.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -175,7 +176,18 @@ const deleteComment = asyncHandler(async (req, res) => {
 
 const getAllVideoComments = asyncHandler(async (req, res) => {
     const { videoId } = req.params
-    const { page = 1, limit = 2,query } = req.query
+    const { page = 1, limit = 2, query } = req.query
+    
+    const cachedValue = await redisClient.get(`comments:${videoId}:${page}:${limit}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue)
+            )
+        )
+    }
     
     const pipeline = [];
     if (query) {
@@ -265,6 +277,8 @@ const getAllVideoComments = asyncHandler(async (req, res) => {
     }
 
     const comment = await Comment.aggregatePaginate(commentAggregate, options)
+
+    await redisClient.set(`comments:${videoId}:${page}:${limit}`,JSON.stringify(comment),'EX',60)
     
     return res.status(200)
         .json(

@@ -1,4 +1,5 @@
 import mongoose, { isValidObjectId } from "mongoose";
+import { redisClient } from "../db/redis.js";
 import { User } from "../models/user.model.js";
 import { Video } from "../models/video.model.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -13,6 +14,18 @@ const getAllVideos = asyncHandler(async (req, res) => {
 
     if (!isValidObjectId(req.user?._id)) {
         throw new ApiError(400,"Invalid user")
+    }
+
+    const cachedValue = await redisClient.get(`video:${req.query.page}:${req.query.limit}:${req.query.query}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "Videos fetched successfully"
+            )
+        )
     }
 
     pipeline.push({
@@ -71,6 +84,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
         
     )
 
+
     
 
     const videoAggregate = Video.aggregate(pipeline);
@@ -81,6 +95,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     };
 
     const video = await Video.aggregatePaginate(videoAggregate, options)
+    await redisClient.set(`video:${req.query.page}:${req.query.limit}:${req.query.query}`,JSON.stringify(video),'EX',60)
     
     return res.status(200)
         .json(
@@ -141,6 +156,17 @@ const getVideoById = asyncHandler(async (req, res) => {
     //convert id in params into the mongoDb id
 
     const { videoId } = req.params
+    const cachedValue = await redisClient.get(`video:${videoId}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "Video fetched successfully"
+            )
+        )
+    }
     const video = await Video.aggregate([
         {
             $match: {
@@ -174,6 +200,8 @@ const getVideoById = asyncHandler(async (req, res) => {
     if (!video) {
         throw new ApiError(400,"Invalid video Id")
     }
+
+    await redisClient.set(`video:${videoId}`,JSON.stringify(video),'EX',60)
 
     return res.status(200)
         .json(

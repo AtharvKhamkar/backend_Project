@@ -1,3 +1,4 @@
+import { redisClient } from "../db/redis.js";
 import { Subscription } from "../models/subscription.model.js";
 import { User } from "../models/user.model.js";
 import { ApiError } from "../utils/ApiError.js";
@@ -52,6 +53,18 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
 
     if (!username?.trim()) {
         throw new ApiError(400,"Username is missing")
+    }
+
+    const cachedValue = await redisClient.get(`user:${username}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "Channel profile fetched successfully"
+            )
+        )
     }
 
     const channel = await User.aggregate([
@@ -109,6 +122,8 @@ const getUserChannelProfile = asyncHandler(async (req, res) => {
     if (!channel?.length) {
         new ApiError(404,"Channel does not exists")
     }
+
+    await redisClient.set(`user:${username}`,JSON.stringify(channel[0]),'EX',60)
 
     return res.status(200)
         .json(
@@ -174,5 +189,5 @@ const getWatchHistory = asyncHandler(async (req, res) => {
 
 
 
-export { getUserChannelProfile, subscribeChannel,getWatchHistory };
+export { getUserChannelProfile, getWatchHistory, subscribeChannel };
 

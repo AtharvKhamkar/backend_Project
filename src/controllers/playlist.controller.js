@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { redisClient } from "../db/redis.js";
 import { Playlist } from "../models/playlist.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -165,12 +166,27 @@ const addVideoToPlaylist = asyncHandler(async (req, res) => {
 })
 
 const getUserPlaylist = asyncHandler(async (req, res) => {
+
+    const Id = req.user?._id;
+    
+
+    const cachedValue = await redisClient.get(`playlist:${Id}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "User playlist fetched successfully"
+            )
+        )
+    }
     
 
     const user = await Playlist.aggregate([
         {
             $match: {
-                owner:new mongoose.Types.ObjectId(req.user._id)
+                owner:new mongoose.Types.ObjectId(Id)
             }
         },
         {
@@ -222,6 +238,8 @@ const getUserPlaylist = asyncHandler(async (req, res) => {
             }
         }
     ])
+
+    await redisClient.set(`playlist:${Id}`,JSON.stringify(user),'EX',60)
 
     return res.status(200)
         .json(

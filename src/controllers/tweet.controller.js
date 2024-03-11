@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { redisClient } from "../db/redis.js";
 import { Tweet } from "../models/tweet.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
@@ -49,10 +50,24 @@ const getUserTweet = asyncHandler(async (req, res) => {
     //get user details from token through verifyJWT
     //we have to get all the objects whose object._id is same as the object._id in req
 
+    const Id = req.user?._id
+
+    const cachedValue = await redisClient.get(`tweet:${Id}`)
+    if (cachedValue) {
+        return res.status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    JSON.parse(cachedValue),
+                    "Tweet fetched successfully"
+            )
+        )
+    }
+
     const tweets = await Tweet.aggregate([
         {
             $match: {
-                owner:new mongoose.Types.ObjectId(req.user._id)
+                owner:new mongoose.Types.ObjectId(Id)
             }
         },
         {
@@ -80,7 +95,7 @@ const getUserTweet = asyncHandler(async (req, res) => {
         
     ])
 
-    
+    await redisClient.set(`tweet:${Id}`,JSON.stringify(tweets),'EX',60)
 
     return res.status(200)
         .json(
