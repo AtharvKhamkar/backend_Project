@@ -95,7 +95,7 @@ const getAllVideos = asyncHandler(async (req, res) => {
     };
 
     const video = await Video.aggregatePaginate(videoAggregate, options)
-    await redisClient.set(`video:${req.query.page}:${req.query.limit}:${req.query.query}`,JSON.stringify(video),'EX',60)
+    await redisClient.set(req.cacheKey,JSON.stringify(video),'EX',60)
     
     return res.status(200)
         .json(
@@ -155,22 +155,12 @@ const getVideoById = asyncHandler(async (req, res) => {
     //send video id through req.params
     //convert id in params into the mongoDb id
 
-    const { videoId } = req.params
-    const cachedValue = await redisClient.get(`video:${videoId}`)
-    if (cachedValue) {
-        return res.status(200)
-            .json(
-                new ApiResponse(
-                    200,
-                    JSON.parse(cachedValue),
-                    "Video fetched successfully"
-            )
-        )
-    }
+    const { Id } = req.params
+    
     const video = await Video.aggregate([
         {
             $match: {
-                _id:new mongoose.Types.ObjectId(videoId)
+                _id:new mongoose.Types.ObjectId(Id)
             }
         },
         {
@@ -201,7 +191,7 @@ const getVideoById = asyncHandler(async (req, res) => {
         throw new ApiError(400,"Invalid video Id")
     }
 
-    await redisClient.set(`video:${videoId}`,JSON.stringify(video),'EX',60)
+    await redisClient.set(req.cacheKey,JSON.stringify(video),'EX',60)
 
     return res.status(200)
         .json(
