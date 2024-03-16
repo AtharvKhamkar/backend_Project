@@ -1,0 +1,895 @@
+openapi: 3.0.0
+info:
+  title: Backend_Project(Server)
+  version: 1.0.0
+servers:
+  - url: https://youtube-twitter-clone-backend.onrender.com
+  - url: http://{{videoserver}}
+  - url: http://localhost:8000
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+    noauthAuth:
+      type: http
+      scheme: noauth
+security:
+  - bearerAuth: []
+tags:
+  - name: User
+  - name: Subscribe
+  - name: Tweet
+  - name: Video
+  - name: Comment
+  - name: Playlist
+  - name: Likes
+paths:
+  /api/v1/users/register:
+    post:
+      tags:
+        - User
+      summary: Registration
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  example: Sanket Sawant
+                username:
+                  type: string
+                  example: sanketsawant
+                email:
+                  type: string
+                  example: sanketsawant2002@gmail.com
+                password:
+                  type: string
+                  example: sanket123
+                avatar:
+                  type: string
+                  format: binary
+                coverImage:
+                  type: string
+                  format: binary
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/login:
+    post:
+      tags:
+        - User
+      summary: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: sanketsawant2002@gmail.com
+                username: sanketsawant
+                password: sanket123
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/logout:
+    post:
+      tags:
+        - User
+      summary: Logout
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/refreshToken:
+    post:
+      tags:
+        - User
+      summary: Renew refreshToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                refreshToken: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWQxZDRiYWNkMzE0YTQ4NWFhNDBlMmEiLCJpYXQiOjE3MDgyNTM5MDcsImV4cCI6MTcwOTExNzkwN30.KeVTad_yVUF3nt9sWCGbQZeDygqOV-OfJ9KQlIp1LyM
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/change-password:
+    post:
+      tags:
+        - User
+      summary: Change Password
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                oldPassword:
+                  type: string
+                  example: sanket1234
+                newPassword:
+                  type: string
+                  example: sanket123
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/forgot-password:
+    post:
+      tags:
+        - User
+      summary: Forgot Password
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: khamkaratharv2002@gmail.com
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/reset-password/9378870e30c9dead7428096e5e5f375f648fef15d4105f91931a3682ed750b9d:
+    patch:
+      tags:
+        - User
+      summary: Reset Password
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                newPassword:
+                  type: string
+                  example: atharv12345
+      security:
+        - noauthAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/current-user:
+    get:
+      tags:
+        - User
+      summary: Current User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/update-account:
+    patch:
+      tags:
+        - User
+      summary: Update Account Details
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                fullName:
+                  type: string
+                  example: Atharv Santosh Sawant
+                email:
+                  type: string
+                  example: sanketsawant2002@gmail.com
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/update-coverImage:
+    patch:
+      tags:
+        - User
+      summary: Update Coverimage
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                coverImage:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/users/update-avatar:
+    patch:
+      tags:
+        - User
+      summary: Update Avatar
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                avatar:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /users/delete-user:
+    delete:
+      tags:
+        - User
+      summary: Delete User
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/subscription/subscribe:
+    post:
+      tags:
+        - Subscribe
+      summary: Subscribe channel
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                channel:
+                  type: string
+                  example: atharvkhamkar
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/subscription/user-Chanel-details:
+    get:
+      tags:
+        - Subscribe
+      summary: User channel details
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/tweet/create-tweet:
+    post:
+      tags:
+        - Tweet
+      summary: Create Tweet
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: >-
+                    Hey guys, I am sankaet,Hey twitter connect me with people
+                    who are intrested in Data science, Data analytics,Excel
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/tweet/all-tweets:
+    get:
+      tags:
+        - Tweet
+      summary: Get all tweets
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/tweet/delete-tweet/{tweetId}:
+    delete:
+      tags:
+        - Tweet
+      summary: Delete tweet
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tweetId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1ebb67769134a46e2ef06
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/tweet/update-tweet/{tweetId}/{updateContent}:
+    patch:
+      tags:
+        - Tweet
+      summary: Update tweet
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tweetId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1ebb67769134a46e2ef06
+        - name: updateContent
+          in: path
+          schema:
+            type: string
+          required: true
+          example: >-
+            Hey , I am sankat,Hey twitter connect me with people who are
+            intrested in Data science, Data analytics,Excel
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/video/publish-video:
+    post:
+      tags:
+        - Video
+      summary: Upload Video
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  example: Roadmap to Data Analyst
+                description:
+                  type: string
+                  example: Proper readmap to become full time data analyst
+                videoFile:
+                  type: string
+                  format: binary
+                thumbnail:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/video/getVideo/{videoId}:
+    get:
+      tags:
+        - Video
+      summary: Get Video by Id
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65a8f37465c558d384adf998
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/video/all-videos:
+    get:
+      tags:
+        - Video
+      summary: Get All User Videos
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '3'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/video/update-video/{videoId}:
+    patch:
+      tags:
+        - Video
+      summary: Update Views
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                videoFile:
+                  type: string
+                  format: binary
+                title:
+                  type: string
+                  example: This is new title
+                description:
+                  type: string
+                  example: This is new description
+                thumbnail:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65a8f37465c558d384adf998
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/video/delete-video/{videoId}:
+    delete:
+      tags:
+        - Video
+      summary: Delete Video
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1eec57769134a46e2ef15
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comment/add-comment/{videoId}:
+    post:
+      tags:
+        - Comment
+      summary: Add comment
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: Hey this is very detailed roadmap to follow.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1f2177769134a46e2ef32
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comment/video-comments/{videoId}:
+    get:
+      tags:
+        - Comment
+      summary: Get Video Comments
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65a8f37465c558d384adf998
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comment/allVideo-comments/{videoId}:
+    get:
+      tags:
+        - Comment
+      summary: Get Video Comments(alternate)
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+          example: '1'
+        - name: limit
+          in: query
+          schema:
+            type: integer
+          example: '2'
+        - name: query
+          in: query
+          schema:
+            type: string
+          example: video
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65a8f37465c558d384adf998
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comment/update-comment/{commentId}:
+    patch:
+      tags:
+        - Comment
+      summary: Update Comment
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                content:
+                  type: string
+                  example: this is very detailed roadmap to follow.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: commentId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d20db554bec641cf7942ac
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/comment/delete-comment/{commentId}:
+    delete:
+      tags:
+        - Comment
+      summary: Delete Comment
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: commentId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d20db554bec641cf7942ac
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/playlist/add-video/{videoId}/{playlistId}:
+    patch:
+      tags:
+        - Playlist
+      summary: Add Video
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1f2177769134a46e2ef32
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65ad6b81109480744576e53f
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/playlist/remove-video/{videoId}/{playlistId}:
+    patch:
+      tags:
+        - Playlist
+      summary: Remove video
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties: {}
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d1f2177769134a46e2ef32
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65ad6b81109480744576e53f
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/playlist/update-playlist/{playlistId}:
+    patch:
+      tags:
+        - Playlist
+      summary: Update Playlist
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Data Analyst
+                description:
+                  type: string
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d245af1b791d73d02dfde8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/playlist/create-playlist:
+    post:
+      tags:
+        - Playlist
+      summary: Create Playlist
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: Data analyst Playlist
+                description:
+                  type: string
+                  example: This playlist contains list of data analyst resources
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/playlist/get-user-playlist:
+    get:
+      tags:
+        - Playlist
+      summary: Get User Playlist
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/playlist/delete-playlist/{playlistId}:
+    delete:
+      tags:
+        - Playlist
+      summary: Delete Playlist
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: playlistId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65d245af1b791d73d02dfde8
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/likes/like-comment/{commentId}:
+    post:
+      tags:
+        - Likes
+      summary: Like Comment
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: commentId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65a93abc52d265b567128623
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/likes/like-video/{videoId}:
+    post:
+      tags:
+        - Likes
+      summary: Like Video
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: videoId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65a8f37465c558d384adf998
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/likes/liked-videos:
+    get:
+      tags:
+        - Likes
+      summary: All liked Videos
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/likes/liked-tweets:
+    get:
+      tags:
+        - Likes
+      summary: All liked Tweets
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/likes/liked-comments:
+    get:
+      tags:
+        - Likes
+      summary: All liked Comments
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/v1/likes/like-tweet/{tweetId}:
+    post:
+      tags:
+        - Likes
+      summary: Like Tweet
+      requestBody:
+        content: {}
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: tweetId
+          in: path
+          schema:
+            type: string
+          required: true
+          example: 65a8bca76b63ebe524fd680f
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
