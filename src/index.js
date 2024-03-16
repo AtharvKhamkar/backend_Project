@@ -12,7 +12,7 @@ dotenv.config({
     path: './env'
 })
 
-const swaggerJsDocs = YAML.load("/home/mahesh/backend_Project/src/api.yaml")
+const swaggerJsDocs = YAML.load("src/api.yaml")
 
 app.use(
     "/api-docs",
