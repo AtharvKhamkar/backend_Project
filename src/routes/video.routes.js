@@ -3,6 +3,8 @@ import { deleteVideo, getAllVideos, getVideoById, publishAVideo, updateVideo, vi
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 import { checkCache } from "../middlewares/cache.middleware.js";
 import { upload } from "../middlewares/multer.middleware.js";
+import { isValidDescription } from "../middlewares/validation.middleware.js";
+import { videoSchema } from "../schemas/video.schema.js";
 
 
 const router = Router()
@@ -17,7 +19,7 @@ router.route("/publish-video").post(verifyJWT,
             name: "thumbnail",
             maxCount:1
         }
-    ]),publishAVideo
+    ]),isValidDescription(videoSchema),publishAVideo
 )
 
 router.route("/getVideo/:Id").get(verifyJWT,checkCache,getVideoById)
